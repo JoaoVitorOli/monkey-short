@@ -1,3 +1,4 @@
+import { join } from 'node:path';
 import { NestFactory } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
 import {
@@ -22,6 +23,12 @@ async function bootstrap() {
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     maxAge: 86400,
+  });
+
+  app.useStaticAssets({
+    root: join(import.meta.dirname, '..', 'public'),
+    prefix: '/assets/',
+    maxAge: '7d',
   });
 
   await app.listen(env.get('PORT'));
