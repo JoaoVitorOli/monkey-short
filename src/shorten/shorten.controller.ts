@@ -8,14 +8,21 @@ import {
   Redirect,
 } from '@nestjs/common';
 import { ShortenService } from './shorten.service.js';
-import type { CreateShortURLDto } from './dto/create-short-url.dto.js';
+import {
+  shortUrlSchema,
+  type CreateShortURLDto,
+} from './dto/create-short-url.dto.js';
+import { ZodValidationPipe } from '../shared/pipes/zod-validation.pipe.js';
 
 @Controller()
 export class ShortenController {
   constructor(private readonly shortenService: ShortenService) {}
 
   @Post('shorten')
-  createShortURL(@Body() createShortURLDto: CreateShortURLDto) {
+  createShortURL(
+    @Body(new ZodValidationPipe(shortUrlSchema))
+    createShortURLDto: CreateShortURLDto,
+  ) {
     return this.shortenService.shortenUrl(createShortURLDto);
   }
 
