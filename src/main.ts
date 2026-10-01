@@ -15,9 +15,15 @@ async function bootstrap() {
     },
   );
 
-  app.enableCors();
-
   const env = app.get(EnvConfigService);
+
+  app.enableCors({
+    origin: env.get('CORS_ORIGINS'),
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    maxAge: 86400,
+  });
+
   await app.listen(env.get('PORT'));
 }
 await bootstrap();
