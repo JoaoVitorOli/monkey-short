@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { createObserveModule } from '@nestjs/observe';
 import { ShortenModule } from './shorten/shorten.module.js';
 import { EnvConfigModule } from './shared/env-config/env-config.module.js';
 import { ObserveConfigModule } from './shared/observe/observe-config.module.js';
@@ -7,8 +6,6 @@ import { minutes, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EnvConfigService } from './shared/env-config/env-config.service.js';
-
-export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [

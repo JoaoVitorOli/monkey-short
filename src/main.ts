@@ -1,11 +1,12 @@
 import { join } from 'node:path';
 import { NestFactory } from '@nestjs/core';
-import { AppModule, ObserveInstrument } from './app.module.js';
+import { AppModule } from './app.module.js';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { EnvConfigService } from './shared/env-config/env-config.service.js';
+import { ObserveInstrument } from './shared/observe/observe.instrument.js';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
