@@ -6,6 +6,7 @@ import {
   Param,
   HttpStatus,
   Redirect,
+  UseFilters,
 } from '@nestjs/common';
 import { ShortenService } from './shorten.service.js';
 import {
@@ -13,6 +14,7 @@ import {
   type CreateShortURLDto,
 } from './dto/create-short-url.dto.js';
 import { ZodValidationPipe } from '../shared/pipes/zod-validation.pipe.js';
+import { ShortUrlNotFoundFilter } from './filters/short-url-not-found.filter.js';
 
 @Controller()
 export class ShortenController {
@@ -28,6 +30,7 @@ export class ShortenController {
 
   @Get(':code')
   @Redirect()
+  @UseFilters(ShortUrlNotFoundFilter)
   async redirect(@Param('code') code: string) {
     const url = await this.shortenService.findOriginalUrl(code);
 
