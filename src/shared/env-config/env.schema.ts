@@ -23,6 +23,13 @@ export const envSchema = z.object({
         z.url({ protocol: /^https?$/ }).transform((url) => new URL(url).origin),
       ),
     ),
+  MONGODB_URI: z
+    .string()
+    .regex(
+      /^mongodb(\+srv)?:\/\//,
+      'Must start with mongodb:// or mongodb+srv://',
+    ),
+  URL_BASE: z.url().min(1),
 });
 
 export type Env = z.infer<typeof envSchema>;
