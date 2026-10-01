@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>404 · the monkey took your link</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐒</text></svg>"
+    />
+    <!-- Free look-alikes for systems without Comic Sans / Impact (Linux, Android) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Comic+Neue:wght@400;700&display=swap"
+    />
+    <style>
+      :root {
+        --yellow: #ffe600;
+        --pink: #ff2bd6;
+        --lime: #39ff14;
+        --cyan: #00e5ff;
+        --ink: #120024;
+        --paper: #fffdf2;
+        --comic: 'Comic Sans MS', 'Comic Neue', 'Chalkboard SE', cursive;
+        --impact: Impact, Anton, 'Arial Black', sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        overflow-x: clip;
+        min-height: 100vh;
+        color: var(--ink);
+        font-family: var(--comic);
+        background-color: var(--cyan);
+        background-image:
+          url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72'><text x='8' y='44' font-size='32'>🍌</text></svg>"),
+          linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--pink),
+            var(--yellow),
+            var(--lime)
+          );
+        background-size:
+          72px 72px,
+          400% 400%;
+        animation: rainbow 14s ease infinite;
+      }
+
+      /* Hazard-stripe ticker */
+      .ticker {
+        overflow: hidden;
+        white-space: nowrap;
+        border-block: 6px solid transparent;
+        border-image: repeating-linear-gradient(
+            45deg,
+            #000 0 14px,
+            var(--yellow) 14px 28px
+          )
+          6;
+        background: #000;
+        color: var(--yellow);
+        font-family: var(--impact);
+        font-size: clamp(14px, 3.5vw, 20px);
+        letter-spacing: 0.06em;
+        padding: 6px 0;
+      }
+
+      .ticker span {
+        display: inline-block;
+        padding-left: 100%;
+        animation: scroll 16s linear infinite;
+      }
+
+      .page {
+        width: min(100% - 32px, 980px);
+        margin: 24px auto 40px;
+        display: grid;
+        gap: 28px;
+      }
+
+      header {
+        text-align: center;
+      }
+
+      .wordart {
+        margin: 0;
+        font-family: var(--impact);
+        font-size: clamp(96px, 30vw, 220px);
+        line-height: 0.9;
+        letter-spacing: 0.04em;
+        background: linear-gradient(
+          180deg,
+          #ff0000,
+          #ff9900,
+          #ffee00,
+          #33cc33,
+          #0099ff,
+          #9933ff
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: drop-shadow(4px 4px 0 #000) drop-shadow(4px 4px 0 var(--pink));
+        transform: rotate(-4deg);
+        animation: wobble 2.4s ease-in-out infinite;
+      }
+
+      .blink {
+        display: inline-block;
+        margin: 12px 0 0;
+        padding: 6px 14px;
+        background: var(--yellow);
+        border: 4px dashed #ff0000;
+        color: #ff0000;
+        font-family: var(--impact);
+        font-size: clamp(20px, 5.5vw, 34px);
+        text-transform: uppercase;
+        animation: blink 0.9s steps(1) infinite;
+      }
+
+      .card {
+        margin: 0;
+        padding: 12px;
+        background: var(--paper);
+        border: 6px ridge var(--pink);
+        box-shadow:
+          8px 8px 0 #000,
+          0 0 24px var(--lime);
+        text-align: center;
+      }
+
+      .card img,
+      .card video {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #000;
+        border: 3px inset #999;
+      }
+
+      .hero {
+        justify-self: center;
+        width: min(100%, 540px);
+        transform: rotate(1.5deg);
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+        gap: 24px;
+        align-items: start;
+      }
+
+      .gallery .card img {
+        height: 230px;
+        object-fit: contain;
+      }
+
+      .gallery .card:nth-child(odd) {
+        transform: rotate(-2.5deg);
+      }
+
+      .gallery .card:nth-child(even) {
+        transform: rotate(2deg);
+        border-color: var(--cyan);
+      }
+
+      .box {
+        padding: 18px;
+        background: #fff;
+        border: 5px outset var(--lime);
+        text-align: center;
+        font-size: clamp(16px, 4vw, 20px);
+      }
+
+      .box p {
+        margin: 0 0 16px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 18px;
+        background: linear-gradient(180deg, var(--lime), #0f9d00);
+        border: 4px outset #b6ff9e;
+        color: #000;
+        font-family: var(--impact);
+        font-size: clamp(16px, 4.2vw, 22px);
+        letter-spacing: 0.03em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .btn:active {
+        border-style: inset;
+      }
+
+      .btn:focus-visible {
+        outline: 4px dashed var(--pink);
+        outline-offset: 4px;
+      }
+
+      .btn small {
+        display: block;
+        font-family: var(--comic);
+        font-size: 0.6em;
+        text-transform: none;
+      }
+
+      footer {
+        display: grid;
+        justify-items: center;
+        gap: 10px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .counter {
+        padding: 6px 12px;
+        background: #000;
+        border: 3px ridge #888;
+        color: var(--lime);
+        font-family: 'Courier New', monospace;
+        font-size: 15px;
+      }
+
+      .counter strong {
+        padding: 0 6px;
+        background: #111;
+        letter-spacing: 0.2em;
+      }
+
+      footer p {
+        margin: 0;
+        padding: 4px 10px;
+        background: var(--yellow);
+        border: 2px solid #000;
+      }
+
+      @keyframes rainbow {
+        0%,
+        100% {
+          background-position:
+            0 0,
+            0% 50%;
+        }
+        50% {
+          background-position:
+            0 0,
+            100% 50%;
+        }
+      }
+
+      @keyframes scroll {
+        to {
+          transform: translateX(-100%);
+        }
+      }
+
+      @keyframes wobble {
+        0%,
+        100% {
+          transform: rotate(-4deg) scale(1);
+        }
+        50% {
+          transform: rotate(3deg) scale(1.04);
+        }
+      }
+
+      @keyframes blink {
+        50% {
+          visibility: hidden;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body,
+        .ticker span,
+        .wordart,
+        .blink {
+          animation: none;
+        }
+
+        .ticker span {
+          padding-left: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ticker" aria-hidden="true">
+      <span>
+        ⚠️ ATTENCION ⚠️ THIS LINK DO NOT EXIST! ⚠️ THE MONKEY TOOK IT ⚠️ F5 WILL
+        NOT SAVE YOUR LIFE ⚠️ 🍌🍌🍌 ⚠️ ATTENCION ⚠️ THIS LINK DO NOT EXIST! ⚠️
+      </span>
+    </div>
+
+    <main class="page">
+      <header>
+        <h1 class="wordart">404</h1>
+        <p class="blink">URL NOT FOUND!!!1!</p>
+      </header>
+
+      <figure class="card hero">
+        <video
+          src="/assets/404/monkey3.mp4"
+          width="498"
+          height="406"
+          autoplay
+          loop
+          muted
+          playsinline
+          aria-label="Orangutan driving a golf cart"
+        ></video>
+      </figure>
+
+      <section class="gallery" aria-label="Monkey reactions">
+        <figure class="card">
+          <img
+            src="/assets/404/monkey4.gif"
+            width="220"
+            height="220"
+            alt="Monkey holding its head in despair"
+          />
+        </figure>
+        <figure class="card">
+          <img
+            src="/assets/404/monkey2.gif"
+            width="200"
+            height="150"
+            alt="Monkey puppet talking nonstop"
+          />
+        </figure>
+        <figure class="card">
+          <img
+            src="/assets/404/monkey1.gif"
+            width="165"
+            height="253"
+            alt="Monkey in a white T-shirt and chain, holding a beer"
+          />
+        </figure>
+      </section>
+
+      <div class="box">
+        <p>
+          Check the link for typos or ask whoever sent it for a new one. If
+          nothing works... it is what it is 🙈
+        </p>
+        <a class="btn" href="">
+          🔁 Try again
+          <small>(spoiler: it won't work)</small>
+        </a>
+      </div>
+
+      <footer>
+        <div class="counter">You are visitor no. <strong>000404</strong></div>
+        <p>🍌 Best viewed in Internet Explorer 6 at 800×600 🍌</p>
+        <p>© 2003 monkey-short · made with bananas and duct tape</p>
+      </footer>
+    </main>
+  </body>
+</html>
