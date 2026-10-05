@@ -29,12 +29,9 @@ A simple URL shortener built for study and experimentation with **NestJS, MongoD
 - [x] Rate limiting
 - [x] DTO input validation
 - [x] URL validation (HTTP/HTTPS only)
-- [ ] Request payload size limits
-- [ ] Security headers
 - [x] Random short code generation
 - [x] Unique MongoDB index for short codes
 - [x] Redis cache with TTL
-- [ ] Application logging
 
 ## Core Features
 
