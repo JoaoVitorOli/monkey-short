@@ -30,6 +30,9 @@ export const envSchema = z.object({
       'Must start with mongodb:// or mongodb+srv://',
     ),
   URL_BASE: z.url().min(1),
+  REDIS_URI: z
+    .string()
+    .regex(/^rediss?:\/\//, 'Must start with redis:// or rediss://'),
 });
 
 export type Env = z.infer<typeof envSchema>;
