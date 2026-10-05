@@ -1,0 +1,219 @@
+<svg xml:space="preserve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" width="1200" height="1000" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .h1 { font-size: 18px; font-weight: 700; fill: #0f172a; }
+    .h2 { font-size: 14px; font-weight: 700; fill: #0f172a; }
+    .sub { font-size: 13px; fill: #475569; }
+    .body { font-size: 12.5px; fill: #334155; }
+    .mono { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 12.5px; fill: #334155; }
+    .label { font-size: 12px; fill: #475569; }
+    .yes { font-size: 12px; font-weight: 700; fill: #15803d; }
+    .no { font-size: 12px; font-weight: 700; fill: #b91c1c; }
+    .note { font-size: 12px; font-style: italic; fill: #64748b; }
+    .badge-text { font-size: 12px; font-weight: 700; fill: #ffffff; }
+    .arrow { stroke: #475569; stroke-width: 1.6; fill: none; }
+    .client { fill: #eff6ff; stroke: #3b82f6; }
+    .nest { fill: #fff1f3; stroke: #e0234e; }
+    .redis { fill: #fff7ed; stroke: #ea580c; }
+    .mongo { fill: #f0fdf4; stroke: #16a34a; }
+    .panel { fill: #f8fafc; stroke: #e2e8f0; }
+    .inner { fill: #ffffff; stroke: #f4a3b4; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="1000" fill="#ffffff"/>
+
+  <text x="30" y="36" class="title">monkey-short · request flow</text>
+
+  <!-- ============ Architecture ============ -->
+
+  <!-- Client -->
+  <rect x="30" y="130" width="160" height="120" rx="12" class="client" stroke-width="1.5"/>
+  <text x="110" y="182" text-anchor="middle" class="h1">Client</text>
+  <text x="110" y="204" text-anchor="middle" class="sub">Browser or</text>
+  <text x="110" y="221" text-anchor="middle" class="sub">API client</text>
+
+  <!-- Client <-> NestJS -->
+  <line x1="190" y1="178" x2="288" y2="178" class="arrow" marker-end="url(#arrow)"/>
+  <text x="240" y="170" text-anchor="middle" class="label">request</text>
+  <line x1="290" y1="206" x2="192" y2="206" class="arrow" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="240" y="224" text-anchor="middle" class="label">response</text>
+
+  <!-- NestJS -->
+  <rect x="290" y="60" width="480" height="290" rx="12" class="nest" stroke-width="1.5"/>
+  <text x="530" y="90" text-anchor="middle" class="h1">NestJS API</text>
+  <text x="530" y="110" text-anchor="middle" class="sub">Fastify adapter</text>
+
+  <rect x="315" y="126" width="430" height="46" rx="8" class="inner"/>
+  <text x="330" y="145" class="h2">ThrottlerGuard</text>
+  <text x="330" y="163" class="body">Rate limit: 100 requests per minute</text>
+
+  <rect x="315" y="178" width="430" height="46" rx="8" class="inner"/>
+  <text x="330" y="197" class="h2">ShortenController</text>
+  <text x="330" y="215" class="body">POST /shorten · GET /:code · Zod validation</text>
+
+  <rect x="315" y="230" width="430" height="46" rx="8" class="inner"/>
+  <text x="330" y="249" class="h2">ShortenService</text>
+  <text x="330" y="267" class="body">Code generation · cache-aside lookup (Redis → MongoDB)</text>
+
+  <rect x="315" y="282" width="430" height="46" rx="8" class="inner"/>
+  <text x="330" y="301" class="h2">ShortUrlNotFoundFilter</text>
+  <text x="330" y="319" class="body">Unknown code → 404 HTML page (browser) or JSON (API)</text>
+
+  <!-- NestJS <-> Redis -->
+  <line x1="770" y1="112" x2="868" y2="112" class="arrow" marker-end="url(#arrow)"/>
+  <line x1="870" y1="138" x2="772" y2="138" class="arrow" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="820" y="104" text-anchor="middle" class="label">get / set</text>
+
+  <!-- NestJS <-> MongoDB -->
+  <line x1="770" y1="272" x2="868" y2="272" class="arrow" marker-end="url(#arrow)"/>
+  <line x1="870" y1="298" x2="772" y2="298" class="arrow" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="820" y="264" text-anchor="middle" class="label">findById / save</text>
+
+  <!-- Redis -->
+  <rect x="870" y="60" width="300" height="130" rx="12" class="redis" stroke-width="1.5"/>
+  <text x="895" y="90" class="h1">Redis</text>
+  <text x="955" y="90" class="sub">cache</text>
+  <text x="895" y="122" class="mono">key:   short:{code}</text>
+  <text x="895" y="144" class="mono">value: originalUrl</text>
+  <text x="895" y="166" class="mono">TTL:   7 days</text>
+
+  <!-- MongoDB -->
+  <rect x="870" y="220" width="300" height="130" rx="12" class="mongo" stroke-width="1.5"/>
+  <text x="895" y="250" class="h1">MongoDB</text>
+  <text x="985" y="250" class="sub">source of truth</text>
+  <text x="895" y="282" class="mono">collection: shorts</text>
+  <text x="895" y="304" class="mono">_id: code (7 chars, unique)</text>
+  <text x="895" y="326" class="mono">originalUrl · createdAt</text>
+
+  <!-- ============ Flow 1: create ============ -->
+  <rect x="20" y="380" width="1160" height="195" rx="12" class="panel"/>
+  <text x="40" y="410" class="h1">1 · Create a short URL — POST /shorten</text>
+
+  <!-- step 1 -->
+  <rect x="40" y="430" width="196" height="125" rx="10" class="nest" stroke-width="1.2"/>
+  <circle cx="62" cy="452" r="12" fill="#e0234e"/>
+  <text x="62" y="456" text-anchor="middle" class="badge-text">1</text>
+  <text x="82" y="457" class="h2">Validate body</text>
+  <text x="54" y="488" class="body">Zod: http(s) URL only,</text>
+  <text x="54" y="506" class="body">max 2048 characters</text>
+  <text x="54" y="530" class="body">Invalid → 400</text>
+
+  <line x1="236" y1="492" x2="269" y2="492" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- step 2 -->
+  <rect x="271" y="430" width="196" height="125" rx="10" class="nest" stroke-width="1.2"/>
+  <circle cx="293" cy="452" r="12" fill="#e0234e"/>
+  <text x="293" y="456" text-anchor="middle" class="badge-text">2</text>
+  <text x="313" y="457" class="h2">Generate code</text>
+  <text x="285" y="488" class="body">7 random alphanumeric</text>
+  <text x="285" y="506" class="body">characters</text>
+  <text x="285" y="530" class="body">Already in MongoDB?</text>
+  <text x="285" y="547" class="body">→ generate a new one</text>
+
+  <line x1="467" y1="492" x2="500" y2="492" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- step 3 -->
+  <rect x="502" y="430" width="196" height="125" rx="10" class="mongo" stroke-width="1.2"/>
+  <circle cx="524" cy="452" r="12" fill="#16a34a"/>
+  <text x="524" y="456" text-anchor="middle" class="badge-text">3</text>
+  <text x="544" y="457" class="h2">Save in MongoDB</text>
+  <text x="516" y="488" class="mono">{ _id: code,</text>
+  <text x="516" y="506" class="mono">  originalUrl,</text>
+  <text x="516" y="524" class="mono">  createdAt }</text>
+
+  <line x1="698" y1="492" x2="731" y2="492" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- step 4 -->
+  <rect x="733" y="430" width="196" height="125" rx="10" class="redis" stroke-width="1.2"/>
+  <circle cx="755" cy="452" r="12" fill="#ea580c"/>
+  <text x="755" y="456" text-anchor="middle" class="badge-text">4</text>
+  <text x="775" y="457" class="h2">Cache in Redis</text>
+  <text x="747" y="488" class="mono">short:{code}</text>
+  <text x="747" y="506" class="mono">  → originalUrl</text>
+  <text x="747" y="530" class="body">On Redis error: only</text>
+  <text x="747" y="547" class="body">logged, request goes on</text>
+
+  <line x1="929" y1="492" x2="962" y2="492" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- step 5 -->
+  <rect x="964" y="430" width="196" height="125" rx="10" class="client" stroke-width="1.2"/>
+  <circle cx="986" cy="452" r="12" fill="#3b82f6"/>
+  <text x="986" y="456" text-anchor="middle" class="badge-text">5</text>
+  <text x="1006" y="457" class="h2">Respond 201</text>
+  <text x="978" y="488" class="mono">{ shortenedUrl:</text>
+  <text x="978" y="506" class="mono">  URL_BASE/{code} }</text>
+
+  <!-- ============ Flow 2: redirect ============ -->
+  <rect x="20" y="600" width="1160" height="380" rx="12" class="panel"/>
+  <text x="40" y="630" class="h1">2 · Open a short URL — GET /:code</text>
+
+  <!-- A: request -->
+  <rect x="40" y="662" width="180" height="76" rx="10" class="client" stroke-width="1.2"/>
+  <text x="130" y="693" text-anchor="middle" class="h2">Request</text>
+  <text x="130" y="715" text-anchor="middle" class="mono">GET /aB3xK9p</text>
+
+  <line x1="220" y1="700" x2="278" y2="700" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- B: check redis -->
+  <rect x="280" y="662" width="190" height="76" rx="10" class="redis" stroke-width="1.2"/>
+  <text x="375" y="693" text-anchor="middle" class="h2">Check Redis</text>
+  <text x="375" y="715" text-anchor="middle" class="mono">GET short:{code}</text>
+
+  <line x1="470" y1="700" x2="508" y2="700" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- C: hit? -->
+  <polygon points="560,662 610,700 560,738 510,700" class="redis" stroke-width="1.2"/>
+  <text x="560" y="705" text-anchor="middle" class="h2">hit?</text>
+
+  <!-- C yes -> D -->
+  <line x1="610" y1="700" x2="938" y2="700" class="arrow" marker-end="url(#arrow)"/>
+  <text x="774" y="692" text-anchor="middle" class="yes">yes</text>
+
+  <!-- D: redirect -->
+  <rect x="940" y="662" width="220" height="76" rx="10" class="client" stroke-width="1.2"/>
+  <text x="1050" y="693" text-anchor="middle" class="h2">302 Redirect</text>
+  <text x="1050" y="715" text-anchor="middle" class="mono">Location: originalUrl</text>
+
+  <!-- C no -> E -->
+  <line x1="560" y1="738" x2="560" y2="790" class="arrow" marker-end="url(#arrow)"/>
+  <text x="570" y="769" class="no">no</text>
+
+  <!-- E: query mongo -->
+  <rect x="465" y="792" width="190" height="76" rx="10" class="mongo" stroke-width="1.2"/>
+  <text x="560" y="823" text-anchor="middle" class="h2">Query MongoDB</text>
+  <text x="560" y="845" text-anchor="middle" class="mono">findById(code)</text>
+
+  <line x1="655" y1="830" x2="708" y2="830" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- F: found? -->
+  <polygon points="760,792 812,830 760,868 708,830" class="mongo" stroke-width="1.2"/>
+  <text x="760" y="835" text-anchor="middle" class="h2">found?</text>
+
+  <!-- F yes -> G -->
+  <line x1="812" y1="830" x2="948" y2="830" class="arrow" marker-end="url(#arrow)"/>
+  <text x="880" y="822" text-anchor="middle" class="yes">yes</text>
+
+  <!-- G: cache in redis -->
+  <rect x="950" y="792" width="200" height="76" rx="10" class="redis" stroke-width="1.2"/>
+  <text x="1050" y="823" text-anchor="middle" class="h2">Cache in Redis</text>
+  <text x="1050" y="845" text-anchor="middle" class="mono">SET short:{code}</text>
+
+  <!-- G -> D -->
+  <line x1="1050" y1="792" x2="1050" y2="740" class="arrow" marker-end="url(#arrow)"/>
+
+  <!-- F no -> H -->
+  <line x1="760" y1="868" x2="760" y2="898" class="arrow" marker-end="url(#arrow)"/>
+  <text x="770" y="888" class="no">no</text>
+
+  <!-- H: 404 -->
+  <rect x="660" y="900" width="200" height="62" rx="10" class="nest" stroke-width="1.2"/>
+  <text x="760" y="926" text-anchor="middle" class="h2">404 Not Found</text>
+  <text x="760" y="946" text-anchor="middle" class="body">HTML page or JSON error</text>
+
+  <text x="40" y="954" class="note">If Redis is unavailable, the error is logged and the lookup falls back to MongoDB.</text>
+</svg>
