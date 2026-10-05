@@ -11,7 +11,7 @@ import { ObserveInstrument } from './shared/observe/observe.instrument.js';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    new FastifyAdapter({ trustProxy: true }),
     {
       instrument: ObserveInstrument,
     },
@@ -32,6 +32,8 @@ async function bootstrap() {
     maxAge: '7d',
   });
 
-  await app.listen(env.get('PORT'));
+  app.enableShutdownHooks();
+
+  await app.listen(env.get('PORT'), '0.0.0.0');
 }
 await bootstrap();
