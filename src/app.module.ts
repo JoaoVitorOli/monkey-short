@@ -6,12 +6,14 @@ import { minutes, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EnvConfigService } from './shared/env-config/env-config.service.js';
+import { RedisModule } from './redis/redis.module.js';
 
 @Module({
   imports: [
     EnvConfigModule,
     ObserveConfigModule,
     ShortenModule,
+    RedisModule,
     ThrottlerModule.forRoot({
       throttlers: [{ ttl: minutes(1), limit: 100 }],
     }),
