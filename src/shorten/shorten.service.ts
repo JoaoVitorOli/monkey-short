@@ -48,7 +48,7 @@ export class ShortenService {
 
       const savedShortUrl = await createdShortUrl.save();
 
-      await this.cacheSet(cacheKey(code), originalUrl);
+      await this.cacheSet(code, originalUrl);
 
       const shortenedUrl = `${this.env.get('URL_BASE')}/${savedShortUrl._id}`;
 
@@ -59,7 +59,7 @@ export class ShortenService {
   }
 
   async findOriginalUrl(code: string): Promise<string> {
-    const cachedUrl = await this.cacheGet(cacheKey(code));
+    const cachedUrl = await this.cacheGet(code);
 
     if (cachedUrl) return cachedUrl;
 
