@@ -9,6 +9,10 @@ A simple URL shortener built for study and experimentation with **NestJS, MongoD
 - Redis
 - TypeScript
 
+## Application Flow
+
+![Application flow](app-flow.svg)
+
 ## Routes
 
 | Method | Route      | Description                                                                    |
@@ -29,13 +33,12 @@ A simple URL shortener built for study and experimentation with **NestJS, MongoD
 - [ ] Security headers
 - [x] Random short code generation
 - [x] Unique MongoDB index for short codes
-- [ ] Redis cache with TTL
+- [x] Redis cache with TTL
 - [ ] Application logging
 
 ## Core Features
 
 - [x] Create shortened URLs
 - [x] Redirect using short codes
-- [ ] Redis caching
+- [x] Redis caching
 - [x] MongoDB persistence
-- [ ] Basic click tracking
